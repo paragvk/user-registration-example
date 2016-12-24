@@ -1,0 +1,57 @@
+package com.example.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+public class HelloSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DataSource dataSource;
+
+    /*
+     * @Autowired public void configureGlobal(AuthenticationManagerBuilder auth)
+     * throws Exception {
+     * auth.inMemoryAuthentication().withUser("testuser").password("test123").
+     * roles("USER").and().withUser("testadmin")
+     * .password("admin123").roles("USER", "ADMIN"); }
+     */
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select username,password, enabled from users where username=?")
+                .authoritiesByUsernameQuery("select username, role from user_roles where username=?");
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(this.dataSource);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //@formatter:off
+        
+        http.authorizeRequests().antMatchers("/", "/index.html", "/html/**", "/js/**", "/img/**", "/css/**", "/user", "/login**").permitAll()
+        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/jobs/**").hasRole("USER")
+        .anyRequest().authenticated()
+        .and().httpBasic()
+        .and().formLogin()
+        .and().logout().permitAll()
+        .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        
+        //@formatter:on
+    }
+
+}

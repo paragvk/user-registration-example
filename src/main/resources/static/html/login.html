@@ -1,0 +1,20 @@
+<div class="container text-center" style="padding: 20px">
+	<img src="public/img/cloudeers.png" alt="logo" width="135">
+</div>
+
+<div class="container" style="max-width: 330px">
+	<div class="alert alert-danger" ng-show="autherror">There was a problem logging in. Please try again.</div>
+	<form class="form-signin" ng-submit="login()">
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<label for="inputEmail" class="sr-only">User name</label> <input type="text" id="username" class="form-control"
+			placeholder="User name" required autofocus ng-model="credentials.username"> <label for="password" class="sr-only">Password</label>
+		<input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="credentials.password">
+		<div class="checkbox">
+			<label> <input type="checkbox" value="remember-me" ng-model="credentials.rememberme"> Remember me
+			</label>
+		</div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	</form>
+
+</div>
+<!-- /container -->
