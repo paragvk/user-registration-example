@@ -18,19 +18,11 @@ public class HelloSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    /*
-     * @Autowired public void configureGlobal(AuthenticationManagerBuilder auth)
-     * throws Exception {
-     * auth.inMemoryAuthentication().withUser("testuser").password("test123").
-     * roles("USER").and().withUser("testadmin")
-     * .password("admin123").roles("USER", "ADMIN"); }
-     */
-
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username,password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select username, role from user_roles where username=?");
+                .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
     }
 
     @Override

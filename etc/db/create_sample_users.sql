@@ -4,7 +4,7 @@ INSERT INTO users(username,password,enabled)
 VALUES ('prasad','prasad', true);
 
 
-INSERT INTO user_roles (username, role)
+INSERT INTO authorities (username, authority)
 VALUES ('parag', 'ROLE_USER');
-INSERT INTO user_roles (username, role)
+INSERT INTO authorities (username, authority)
 VALUES ('prasad', 'ROLE_ADMIN');
