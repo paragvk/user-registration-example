@@ -33,7 +33,8 @@ angular
 				function($scope, $http, $state, $rootScope) {
 					$scope.logout = function() {
 						$http.post('logout', {}).finally(function() {
-							$rootScope.authenticated = false;
+							// Clear current user data
+						    	$rootScope.authenticated = false;
 							$rootScope.currentuser = {};
 							$state.go("login");
 						});
@@ -47,6 +48,8 @@ angular
 					        	$state.go("login");
 					        	$scope.autherror = true;
 					        }
+					        // Clear user/password from scope
+					        $scope.credentials = {};
 					      });
 					};
 					
