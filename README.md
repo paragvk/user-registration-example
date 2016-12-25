@@ -13,7 +13,6 @@ Spring Boot + Security Form Login + MySQL for UserDetails + FreeMarker Templatin
 
 # Running the app
 
-- Checkout the app (`git clone`)
 - Import as Maven project in Eclipse
 - Run `UserRegistrationApplication.java` as Java Application
 - Login with user `hello_user/user123` and notice the `Search` menu
