@@ -5,6 +5,6 @@ VALUES ('hello_admin','admin123', true);
 
 
 INSERT INTO authorities (username, authority)
-VALUES ('hello_user', 'ROLE_USER');
+VALUES ('hello_user', '1');
 INSERT INTO authorities (username, authority)
-VALUES ('hello_admin', 'ROLE_ADMIN');
+VALUES ('hello_admin', '2');

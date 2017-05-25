@@ -18,16 +18,18 @@ public class HelloSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
+    /*@Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username,password, enabled from users where username=?")
                 .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
-    }
+    }*/
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(this.dataSource);
+        auth.jdbcAuthentication().dataSource(this.dataSource).usersByUsernameQuery("select username,password, enabled from users where username=?")
+        .authoritiesByUsernameQuery("select username, concat('ROLE_', authority) as authority from authorities where username=?");
+        
     }
 
     @Override
@@ -35,8 +37,8 @@ public class HelloSecurityConfig extends WebSecurityConfigurerAdapter {
         //@formatter:off
         
         http.authorizeRequests().antMatchers("/", "/index.html", "/html/**", "/js/**", "/img/**", "/css/**", "/user", "/login**").permitAll()
-        .antMatchers("/admin/**").hasRole("ADMIN")
-        .antMatchers("/jobs/**").hasRole("USER")
+        .antMatchers("/admin/**").hasRole("2")
+        .antMatchers("/jobs/**").hasRole("1")
         .anyRequest().authenticated()
         .and().httpBasic()
         .and().formLogin()

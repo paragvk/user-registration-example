@@ -19,7 +19,7 @@ public class LoginController {
             userDetails.put("username", user.getName());
             if (auth.getAuthorities() != null) {
                 for (GrantedAuthority ga : auth.getAuthorities()) {
-                    if ("ROLE_ADMIN".equals(ga.getAuthority())) {
+                    if ("ROLE_2".equals(ga.getAuthority())) {
                         // Something to distinguish admin users
                         userDetails.put("userrole", "admin");
                     }
